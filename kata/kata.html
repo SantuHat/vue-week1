@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kata</title>
+  </head>
+  <body>
+    <div id="app">
+      <ul></ul>
+    </div>
+    <input type="text" id="inputByAdd" />
+    <button type="button" id="buttonByAdd">新增</button>
+    <script>
+      // 資料
+      const data = [
+        {
+          id: 1,
+          content: "我是卡斯伯",
+        },
+        {
+          id: 2,
+          content: "我是小明",
+        },
+      ];
+
+      const app = document.querySelector("#app");
+      const buttonByAdd = document.querySelector("#buttonByAdd");
+      const inputByAdd = document.querySelector("#inputByAdd");
+      let num = data.length;
+
+      buttonByAdd.addEventListener("click", () => {
+        const val = inputByAdd.value;
+        inputByAdd.value = "";
+        addItem(val);
+      });
+
+      function render() {
+        let str = "";
+        data.forEach((item) => {
+          str += `<li>${item.content}<button type="button" class="removeBtn" data-id="${item.id}">刪除</button></li>`;
+        });
+        app.innerHTML = str;
+
+        const removeBtn = document.querySelectorAll(".removeBtn");
+        removeBtn.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const id = Number.parseInt(e.target.dataset.id);
+            removeItem(id);
+          });
+        });
+      }
+
+      render();
+
+      function addItem(content) {
+        num++;
+        data.push({
+          id: num,
+          content,
+        });
+        render();
+      }
+
+      function removeItem(id) {
+        const index = data.findIndex((item) => item.id === id);
+        data.splice(index, 1);
+        render();
+      }
+    </script>
+  </body>
+</html>
